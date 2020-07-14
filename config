@@ -5,13 +5,13 @@ NGX_ADDON_SRCS="$NGX_ADDON_SRCS $ngx_addon_dir/src/ngx_http_sqlite_module.c"
 NGX_ADDON_DEPS="$NGX_ADDON_DEPS $ngx_addon_dir/src/ngx_http_sqlite_module.h"
 
 if [ -z "$SQLITE_INC" ]; then
-	SQLITE_INC="/usr/include"
+	SQLITE_INC=`pkg-config --cflags sqlite3 | sed 's#^-I##'`
 fi
 
 if [ -z "$SQLITE_LIB" ]; then
-	SQLITE_LIB="/usr/lib64"
+	SQLITE_LIB=`pkg-config --libs sqlite3`
 fi
 
 CORE_INCS="$CORE_INCS $SQLITE_INC"
 
-CORE_LIBS="$CORE_LIBS -L$SQLITE_LIB -lsqlite3"
+CORE_LIBS="$CORE_LIBS $SQLITE_LIB"
